@@ -43,17 +43,31 @@
 ##配置文件 EyeConfig.json
 下列是单个收集策略：
 `        {
+
             "RuleName":"DefultFilesWorm",         //规则名称 如扩展chromeWorm，QQBrowerWorm 用于区分
+            
             "OS": "Windows",                      //操作系统   
+            
             "CollectorType": "File",              //收集策略类型， 如wfiles 收集的就是类型为File的收集策略 （File 文件收集，Command 命令收集，Recent 最近访问，Process 进程收集，Registry 注册表收集 APi mimikatz收集）
+            
             "Category": "defult",
+            
             "Locations":[ "C:/Users/V/Desktop/vvvsss/sss"],
+            
             "ContentKeys": ["\"_id\":"],
+            
             "FileName":["*"],
+            
             "SuffixTypes":[".txt"],
+            
             "Explain": "文件及文件夹收集,支持 * 通配符  ",
+            
             "Commands":null,
+            
             "ProcessName": null,
+            
             "DeCrypt": false,
+            
             "DeCryptCommand": null
+            
         },`
