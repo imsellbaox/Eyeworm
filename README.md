@@ -104,3 +104,11 @@ Eyeworm.exe上传在目标机器上执行对应命令
 
 ![commnd](img1.png)
 ![config](img2.png)
+
+## 注意
+由于继承mimiktaz，以及隐藏，免杀功能 需要使用system权限运行，否则 常驻和mimikatz功能可能失败
+
+# 联系我                ---萧枫
+本人热爱技术，钻研，欢迎志同道合的兄弟一起研究讨论
+邮件：1098516987@qq.com      CSDN:[CSDN](https://blog.csdn.net/VB551)
+# 转载发表请注明原文地址
