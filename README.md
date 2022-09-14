@@ -110,5 +110,5 @@ Eyeworm.exe上传在目标机器上执行对应命令
 
 # 联系我                ---萧枫
 本人热爱技术，钻研，欢迎志同道合的兄弟一起研究讨论
-邮件：1098516987@qq.com      CSDN:[CSDN](https://blog.csdn.net/VB551)
-# 转载发表请注明原文地址
+邮件：1098516987@qq.com      CSDN:[https://blog.csdn.net/VB551](https://blog.csdn.net/VB551)
+# 转载发表请注明原文地址  [https://github.com/imsellbaox/Eyeworm](https://github.com/imsellbaox/Eyeworm)
