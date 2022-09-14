@@ -40,7 +40,8 @@
 
 -unred 解除该电脑的redeye常驻模式
 
-##配置文件 EyeConfig.json
+## 配置文件 EyeConfig.json
+
 下列是单个收集策略：
 `        {
 
