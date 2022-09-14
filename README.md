@@ -102,4 +102,5 @@
 Eyeworm.exe上传在目标机器上执行对应命令
 例：`Eyeworm.exe -wfile -wcommand -wprocess -wregistry -wrecent -wmimikatz -keylog -redeye`
 
-
+![commnd](img1.png)
+![config](img2.png)
