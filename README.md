@@ -48,26 +48,27 @@
             
             "OS": "Windows",                      //操作系统   
             
-            "CollectorType": "File",              //收集策略类型， 如wfiles 收集的就是类型为File的收集策略 （File 文件收集，Command 命令收集，Recent 最近访问，Process 进程收集，Registry 注册表收集 APi mimikatz收集）
+            "CollectorType": "File",              //收集策略类型， 如wfiles 收集的就是类型为File的收集策略 
+                                                （File 文件收集，Command 命令收集，Recent 最近访问，Process 进程收集，Registry 注册表收集 APi mimikatz收集）
             
-            "Category": "defult",
+            "Category": "defult",                // 分类 用于归类如：Browsers、remoteTools,、chatTool
             
-            "Locations":[ "C:/Users/V/Desktop/vvvsss/sss"],
+            "Locations":["C:/Users/admin/Chrome","E:/QQ"],  //搜索路径集
             
-            "ContentKeys": ["\"_id\":"],
+            "ContentKeys": ["\"_id\":","password:"],       //内容收集的匹配字
             
-            "FileName":["*"],
+            "FileName":["*c","a?b","*"],                    //文件名匹配字            
             
-            "SuffixTypes":[".txt"],
+            "SuffixTypes":[".txt"],                         // 搜索文件后缀
             
             "Explain": "文件及文件夹收集,支持 * 通配符  ",
             
-            "Commands":null,
+            "Commands":["set","ipconfig","start 'E:\shell.exe'"],    // 命令收集中需要执行的命令,（收集结果）
             
-            "ProcessName": null,
+            "ProcessName": ["QQ.exe","Chrome.exe"],                 // 进程收集中的进程
             
-            "DeCrypt": false,
+            "DeCrypt": false,                                     //   保留字 解密功能（todo）
             
-            "DeCryptCommand": null
+            "DeCryptCommand": null                                //保留字  解密命令 （todo）
             
         },`
