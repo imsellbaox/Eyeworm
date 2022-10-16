@@ -1,4 +1,4 @@
-[Click here for English version](https://github.com/imsellbaox/Eyeworm)
+[Click here for English version](https://github.com/imsellbaox/Eyeworm/blob/master/README-English.md)
 
 # Eyeworm V 1.2.0 介绍
 
